@@ -1,8 +1,6 @@
 /* ════════════════════════════════════════
    SHUVAM KUMAR — PORTFOLIO SCRIPTS
 ════════════════════════════════════════ */
-
-/* ─── CURSOR ─── */
 const curDot  = document.getElementById('cur-dot');
 const curRing = document.getElementById('cur-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
