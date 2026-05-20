@@ -1,233 +1,382 @@
-/* ════════════════════════════════════════
-   SHUVAM KUMAR — PORTFOLIO SCRIPTS
-════════════════════════════════════════ */
-const curDot  = document.getElementById('cur-dot');
-const curRing = document.getElementById('cur-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
+/* ═══════════════════════════════════════════════════════════
+   SHUVAM KUMAR  —  script.js
+   Loader · Dark/Light Theme · Cursor · Navbar · Parallax
+   Particles · Scroll Reveal · Counters · Typing · Flip Cards
+   Contact Form
+═══════════════════════════════════════════════════════════ */
+'use strict';
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  curDot.style.left = mx + 'px';
-  curDot.style.top  = my + 'px';
-});
-(function animRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  curRing.style.left = rx + 'px';
-  curRing.style.top  = ry + 'px';
-  requestAnimationFrame(animRing);
+/* ══════════════════════════════════════
+   1.  LOADER
+══════════════════════════════════════ */
+(function () {
+  const loader = document.getElementById('loader');
+  const bar    = document.getElementById('loaderBar');
+  const msg    = document.getElementById('loaderMsg');
+
+  const steps = [
+    'Initializing Salesforce environment...',
+    'Loading Apex classes...',
+    'Connecting SAP integration...',
+    'Deploying Lightning components...',
+    'Portfolio ready!'
+  ];
+
+  let pct = 0, step = 0;
+
+  const iv = setInterval(() => {
+    pct += Math.random() * 20 + 8;
+    if (pct > 100) pct = 100;
+    bar.style.width = pct + '%';
+
+    const idx = Math.floor((pct / 100) * steps.length);
+    if (idx !== step && idx < steps.length) { step = idx; msg.textContent = steps[idx]; }
+
+    if (pct >= 100) {
+      clearInterval(iv);
+      setTimeout(() => {
+        loader.classList.add('gone');
+        revealHero();
+      }, 350);
+    }
+  }, 110);
 })();
 
-/* ─── THEME TOGGLE ─── */
-const htmlEl   = document.documentElement;
-const themeBtn = document.getElementById('themeToggle');
-
-function setTheme(t) {
-  htmlEl.setAttribute('data-theme', t);
-  themeBtn.textContent = t === 'dark' ? '🌙' : '☀️';
-  localStorage.setItem('sfTheme', t);
+function revealHero() {
+  document.querySelectorAll('.hero .fade-up, .hero .fade-right').forEach((el, i) => {
+    setTimeout(() => el.classList.add('vis'), i * 110);
+  });
 }
-const savedTheme = localStorage.getItem('sfTheme');
-if (savedTheme) setTheme(savedTheme);
-themeBtn.addEventListener('click', () =>
-  setTheme(htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark')
-);
 
-/* ─── MOBILE MENU ─── */
-const mobileMenu = document.getElementById('mobileMenu');
-document.getElementById('hamburger').addEventListener('click', () => mobileMenu.classList.add('open'));
-document.getElementById('closeMenu').addEventListener('click',  () => mobileMenu.classList.remove('open'));
-document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+/* ══════════════════════════════════════
+   2.  ★ DARK / LIGHT THEME TOGGLE ★
+══════════════════════════════════════ */
+(function () {
+  const btn  = document.getElementById('themeBtn');
+  const icon = document.getElementById('themeIcon');
+  const html = document.documentElement;
 
-/* ─── SCROLL: progress bar + nav shrink + scroll-top ─── */
-const navEl  = document.getElementById('nav');
-const goTop  = document.getElementById('goTop');
-const pb     = document.getElementById('progress-bar');
+  // Restore saved preference
+  const saved = localStorage.getItem('sk-theme') || 'dark';
+  html.setAttribute('data-theme', saved);
+  icon.textContent = saved === 'dark' ? '🌙' : '☀️';
 
-window.addEventListener('scroll', () => {
-  const scrolled = window.scrollY;
-  const total    = document.documentElement.scrollHeight - innerHeight;
-  pb.style.width = (scrolled / total * 100) + '%';
-  navEl.classList.toggle('scrolled', scrolled > 60);
-  goTop.classList.toggle('vis', scrolled > 400);
-});
+  btn.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next    = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    icon.textContent = next === 'dark' ? '🌙' : '☀️';
+    localStorage.setItem('sk-theme', next);
+  });
+})();
 
-/* ─── COUNT-UP ANIMATION ─── */
-function countUp(el) {
-  const target = +el.dataset.target;
-  const dur    = 2000;
-  const step   = Math.max(20, dur / target);
-  let current  = 0;
-  const timer  = setInterval(() => {
-    current++;
-    el.textContent = current + (target === 100 ? '%' : '+');
-    if (current >= target) clearInterval(timer);
-  }, step);
-}
-let counted = false;
-new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting && !counted) {
-      counted = true;
-      document.querySelectorAll('.hstat-num[data-target]').forEach(countUp);
+/* ══════════════════════════════════════
+   3.  CUSTOM CURSOR
+══════════════════════════════════════ */
+(function () {
+  const dot  = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  if (!dot || !ring) return;
+
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  });
+
+  (function loop() {
+    rx += (mx - rx) * 0.13; ry += (my - ry) * 0.13;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Grow on interactive elements
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest('a, button, .flip-card, .proj-flip, .glass-card, .chip')) {
+      dot.style.width = dot.style.height = '18px';
+      ring.style.width = ring.style.height = '52px';
+      ring.style.borderColor = 'rgba(0,196,240,.7)';
     }
   });
-}, { threshold: 0.5 }).observe(document.getElementById('home'));
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('a, button, .flip-card, .proj-flip, .glass-card, .chip')) {
+      dot.style.width = dot.style.height = '10px';
+      ring.style.width = ring.style.height = '36px';
+      ring.style.borderColor = '';
+    }
+  });
 
-/* ─── SCROLL REVEAL ─── */
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-}, { threshold: 0.08 });
+  // Hide on touch devices
+  document.addEventListener('touchstart', () => {
+    dot.style.display = ring.style.display = 'none';
+  }, { once: true });
+})();
 
-document.querySelectorAll('.reveal, .tl-item, .flip-card, .proj-flip').forEach(el =>
-  revealObs.observe(el)
-);
+/* ══════════════════════════════════════
+   4.  NAVBAR  (scroll effect + active links + mobile)
+══════════════════════════════════════ */
+(function () {
+  const nav     = document.getElementById('navbar');
+  const burger  = document.getElementById('burger');
+  const drawer  = document.getElementById('mobDrawer');
+  const overlay = document.getElementById('mobOverlay');
+  const close   = document.getElementById('mobClose');
 
-/* ─── ACTIVE NAV LINK ─── */
-document.querySelectorAll('section[id]').forEach(sec => {
-  new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-        const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
+  // Scroll shadow
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    setActiveLink();
+  }, { passive: true });
+
+  // Mobile open / close
+  function openMenu()  { drawer.classList.add('open'); overlay.classList.add('show'); burger.classList.add('open'); }
+  function closeMenu() { drawer.classList.remove('open'); overlay.classList.remove('show'); burger.classList.remove('open'); }
+
+  burger  && burger.addEventListener('click',  openMenu);
+  close   && close.addEventListener('click',   closeMenu);
+  overlay && overlay.addEventListener('click', closeMenu);
+  document.querySelectorAll('.mob-link').forEach(l => l.addEventListener('click', closeMenu));
+
+  // Active nav link
+  function setActiveLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const links    = document.querySelectorAll('.nav-link');
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 180) cur = s.id; });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
     });
-  }, { threshold: 0.45 }).observe(sec);
-});
-
-/* ─── PARTICLE CANVAS ─── */
-const canvas = document.getElementById('particle-canvas');
-const ctx    = canvas.getContext('2d');
-let W, H, pts = [];
-
-function resizeCanvas() {
-  W = canvas.width  = innerWidth;
-  H = canvas.height = innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-function mkPt() {
-  return {
-    x:  Math.random() * W,
-    y:  Math.random() * H,
-    r:  Math.random() * 1.4 + 0.3,
-    vx: (Math.random() - 0.5) * 0.3,
-    vy: (Math.random() - 0.5) * 0.3,
-    a:  Math.random() * 0.6 + 0.2
-  };
-}
-for (let i = 0; i < 100; i++) pts.push(mkPt());
-
-(function drawParticles() {
-  ctx.clearRect(0, 0, W, H);
-  const isDark = htmlEl.getAttribute('data-theme') !== 'light';
-
-  pts.forEach(p => {
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0 || p.x > W) p.vx *= -1;
-    if (p.y < 0 || p.y > H) p.vy *= -1;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = isDark
-      ? `rgba(20,184,166,${p.a * 0.5})`
-      : `rgba(13,148,136,${p.a * 0.3})`;
-    ctx.fill();
-  });
-
-  for (let i = 0; i < pts.length; i++) {
-    for (let j = i + 1; j < pts.length; j++) {
-      const dx = pts[i].x - pts[j].x;
-      const dy = pts[i].y - pts[j].y;
-      const d  = Math.sqrt(dx * dx + dy * dy);
-      if (d < 110) {
-        ctx.beginPath();
-        ctx.moveTo(pts[i].x, pts[i].y);
-        ctx.lineTo(pts[j].x, pts[j].y);
-        ctx.strokeStyle = isDark
-          ? `rgba(20,184,166,${(1 - d / 110) * 0.08})`
-          : `rgba(13,148,136,${(1 - d / 110) * 0.05})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      }
-    }
   }
-  requestAnimationFrame(drawParticles);
+
+  // Smooth scroll for all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 })();
 
-/* ─── TOAST HELPER ─── */
-function showToast(type, icon, msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('toastIcon').textContent = icon;
-  document.getElementById('toastMsg').textContent  = msg;
-  t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 5000);
+/* ══════════════════════════════════════
+   5.  PARTICLES (Hero canvas)
+══════════════════════════════════════ */
+(function () {
+  const canvas = document.getElementById('ptcCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const N = 65;
+  const pts = Array.from({ length: N }, () => ({
+    x:  Math.random() * canvas.width,
+    y:  Math.random() * canvas.height,
+    vx: (Math.random() - .5) * .45,
+    vy: -(Math.random() * .5 + .15),
+    r:  Math.random() * 1.6 + .4,
+    a:  0, ma: Math.random() * .45 + .08, fs: Math.random() * .007 + .003,
+    c:  Math.random() > .5 ? '0,196,240' : '0,112,210'
+  }));
+
+  function frame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Connection lines
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i + 1; j < pts.length; j++) {
+        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < 110) {
+          ctx.save();
+          ctx.globalAlpha = (1 - d/110) * .11;
+          ctx.strokeStyle = '#00c4f0'; ctx.lineWidth = .6;
+          ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y);
+          ctx.stroke(); ctx.restore();
+        }
+      }
+    }
+    // Particles
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.y < -8) { p.y = canvas.height + 8; p.x = Math.random() * canvas.width; }
+      if (p.a < p.ma) p.a += p.fs;
+      ctx.save(); ctx.globalAlpha = p.a;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgb(${p.c})`; ctx.fill(); ctx.restore();
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ══════════════════════════════════════
+   6.  SCROLL REVEAL
+══════════════════════════════════════ */
+(function () {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('vis');
+      // Animate skill bars when the flip-back becomes visible via JS scroll
+      e.target.querySelectorAll('.sf[data-w]').forEach((b, i) => {
+        setTimeout(() => { b.style.width = b.dataset.w + '%'; }, i * 100 + 200);
+      });
+      // Animate counters
+      e.target.querySelectorAll('.hst-n[data-target], .ach-n[data-target]').forEach(el => {
+        if (!el.dataset.counted) animCount(el, +el.dataset.target);
+      });
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => io.observe(el));
+})();
+
+/* ══════════════════════════════════════
+   7.  COUNTER ANIMATION
+══════════════════════════════════════ */
+function animCount(el, target) {
+  el.dataset.counted = '1';
+  let start = null;
+  const dur = 1600;
+  (function step(ts) {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3); // easeOutCubic
+    el.textContent = Math.floor(e * target);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  })(performance.now());
 }
 
-/* ════════════════════════════════════════
-   CONTACT FORM — MAILTO (no backend needed)
-   ─────────────────────────────────────────
-   When the user clicks "Send Message":
-   1. Reads name, email, message from the form
-   2. Builds a mailto: link with everything pre-filled
-      - To:      shuvam9931@gmail.com
-      - CC:      the sender's email address
-      - Subject: auto-generated with sender's name
-      - Body:    name + email + message
-   3. Opens the user's default mail client
-      (Gmail, Outlook, Apple Mail, etc.)
-   The user just hits SEND in their mail app — done!
-════════════════════════════════════════ */
-document.getElementById('contactForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+/* ══════════════════════════════════════
+   8.  TYPING EFFECT (hero role)
+══════════════════════════════════════ */
+(function () {
+  const el = document.getElementById('typedRole');
+  if (!el) return;
+  const roles = ['Developer & Administrator', 'Apex Engineer', 'LWC Builder', 'SAP Integrator', 'CRM Specialist'];
+  let ri = 0, ci = 0, del = false, timer;
 
-  const name    = document.getElementById('senderName').value.trim();
-  const email   = document.getElementById('senderEmail').value.trim();
-  const message = document.getElementById('senderMessage').value.trim();
-
-  /* Basic validation */
-  if (!name) {
-    showToast('info', '⚠️', 'Please enter your name.');
-    document.getElementById('senderName').focus();
-    return;
-  }
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showToast('info', '⚠️', 'Please enter a valid email address.');
-    document.getElementById('senderEmail').focus();
-    return;
-  }
-  if (!message) {
-    showToast('info', '⚠️', 'Please write your message.');
-    document.getElementById('senderMessage').focus();
-    return;
+  function tick() {
+    const cur = roles[ri];
+    if (del) {
+      el.textContent = cur.slice(0, --ci);
+      if (ci === 0) { del = false; ri = (ri + 1) % roles.length; timer = setTimeout(tick, 400); return; }
+    } else {
+      el.textContent = cur.slice(0, ++ci);
+      if (ci === cur.length) { del = true; timer = setTimeout(tick, 2000); return; }
+    }
+    timer = setTimeout(tick, del ? 55 : 90);
   }
 
-  /* Build mailto parts (encodeURIComponent handles special chars safely) */
-  const TO      = 'shuvam9931@gmail.com';
-  const CC      = encodeURIComponent(email);
-  const SUBJECT = encodeURIComponent(`Portfolio Enquiry from ${name}`);
-  const BODY    = encodeURIComponent(
-    `Hi Shuvam,\n\n` +
-    `You have received a new message from your portfolio:\n\n` +
-    `─────────────────────────────\n` +
-    `Name    : ${name}\n` +
-    `Email   : ${email}\n` +
-    `─────────────────────────────\n\n` +
-    `Message :\n${message}\n\n` +
-    `─────────────────────────────\n` +
-    `Sent from shuvamkumar.dev portfolio`
-  );
+  setTimeout(tick, 1200);
+})();
 
-  /* Open mail client — pre-fills To, CC, Subject, Body */
-  const mailtoLink = `mailto:${TO}?cc=${CC}&subject=${SUBJECT}&body=${BODY}`;
-  window.location.href = mailtoLink;
-
-  /* Show toast confirmation */
-  showToast('success', '✅', 'Your mail app is opening with the message pre-filled. Just hit Send!');
-
-  /* Reset form after a short delay */
-  setTimeout(() => {
-    document.getElementById('contactForm').reset();
-  }, 1500);
+/* ══════════════════════════════════════
+   9.  FLIP CARD — animate bars on hover
+══════════════════════════════════════ */
+document.querySelectorAll('.flip-card').forEach(card => {
+  const bars = card.querySelectorAll('.sf[data-w]');
+  card.addEventListener('mouseenter', () => {
+    bars.forEach((b, i) => {
+      b.style.width = '0%';
+      setTimeout(() => { b.style.width = b.dataset.w + '%'; }, i * 100 + 80);
+    });
+  });
 });
+
+/* ══════════════════════════════════════
+   10.  PARALLAX — extra depth on JS side
+   (CSS background-attachment:fixed does
+    the main work; JS adds subtle scale)
+══════════════════════════════════════ */
+(function () {
+  const bgs = document.querySelectorAll('.parallax-bg');
+  let tick  = false;
+
+  window.addEventListener('scroll', () => {
+    if (tick) return;
+    tick = true;
+    requestAnimationFrame(() => {
+      bgs.forEach(bg => {
+        const sec  = bg.parentElement;
+        const rect = sec.getBoundingClientRect();
+        const vh   = window.innerHeight;
+        if (rect.bottom < -100 || rect.top > vh + 100) { tick = false; return; }
+        // Gentle extra layer beyond CSS fixed
+        const prog = rect.top / (vh + rect.height); // -1 → 1
+        bg.style.transform = `translateY(${prog * 18}px) scale(1.08)`;
+      });
+      tick = false;
+    });
+  }, { passive: true });
+})();
+
+/* ══════════════════════════════════════
+   11.  HERO CARD — mouse parallax
+══════════════════════════════════════ */
+(function () {
+  const card = document.querySelector('.hero-card');
+  const hero = document.getElementById('home');
+  if (!card || !hero) return;
+
+  hero.addEventListener('mousemove', e => {
+    const cx = hero.offsetWidth / 2, cy = hero.offsetHeight / 2;
+    const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
+    card.style.animation   = 'none';
+    card.style.transform   = `perspective(900px) rotateY(${dx * 9}deg) rotateX(${-dy * 6}deg) translateY(-6px)`;
+  });
+  hero.addEventListener('mouseleave', () => {
+    card.style.animation = '';
+    card.style.transform = '';
+  });
+})();
+
+/* ══════════════════════════════════════
+   12.  CONTACT FORM
+══════════════════════════════════════ */
+(function () {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('fname').value.trim();
+    const mail = document.getElementById('femail').value.trim();
+    const msg  = document.getElementById('fmsg').value.trim();
+
+    if (!name || !mail || !msg) { alert('Please fill in all fields.'); return; }
+
+    const sub  = encodeURIComponent(`Portfolio Enquiry from ${name}`);
+    const body = encodeURIComponent(
+      `Hi Shuvam,\n\nMy name is ${name} (${mail}).\n\n${msg}\n\nBest regards,\n${name}`
+    );
+    window.location.href = `mailto:shuvam9931@gmail.com?subject=${sub}&body=${body}`;
+  });
+})();
+
+/* ══════════════════════════════════════
+   13.  KEYBOARD ACCESSIBILITY
+══════════════════════════════════════ */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const drawer  = document.getElementById('mobDrawer');
+    const overlay = document.getElementById('mobOverlay');
+    const burger  = document.getElementById('burger');
+    drawer?.classList.remove('open');
+    overlay?.classList.remove('show');
+    burger?.classList.remove('open');
+  }
+});
+
+/* ══════════════════════════════════════
+   14.  CONSOLE EASTER EGG
+══════════════════════════════════════ */
+console.log('%c👋 Hey Recruiter!', 'font-size:22px;font-weight:900;color:#00c4f0');
+console.log('%cThis portfolio belongs to Shuvam Kumar — Salesforce Developer & Administrator.', 'font-size:14px;color:#8b949e');
+console.log('%c📧 shuvam9931@gmail.com  |  📱 +91 9939364141', 'font-size:13px;color:#0070d2;font-weight:600');
+console.log('%c🌐 shuvam9931.github.io/ShuvamK', 'font-size:13px;color:#0070d2');
