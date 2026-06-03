@@ -47,8 +47,6 @@ function revealHero() {
     setTimeout(() => el.classList.add('vis'), i * 110);
   });
 }
-
-
 /* ══════════════════════════════════════
    2.  ★ DARK / LIGHT THEME TOGGLE ★
 ══════════════════════════════════════ */
