@@ -46,7 +46,7 @@ function revealHero() {
   document.querySelectorAll('.hero .fade-up, .hero .fade-right').forEach((el, i) => {
     setTimeout(() => el.classList.add('vis'), i * 110);
   });
-}
+});
 /* ══════════════════════════════════════
    2.  ★ DARK / LIGHT THEME TOGGLE ★
 ══════════════════════════════════════ */
