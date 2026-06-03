@@ -47,16 +47,7 @@ function revealHero() {
     setTimeout(() => el.classList.add('vis'), i * 110);
   });
 }
-useEffect(() => {
-  const script = document.createElement("script");
-  script.src = "//code.jivosite.com/widget/9jeBG8p1sd";
-  script.async = true;
-  document.body.appendChild(script);
 
-  return () => {
-    document.body.removeChild(script);
-  };
-}, []);
 
 /* ══════════════════════════════════════
    2.  ★ DARK / LIGHT THEME TOGGLE ★
