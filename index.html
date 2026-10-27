@@ -1,541 +1,695 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shuvam Kumar — Salesforce Developer</title>
+  <title>Shuvam Kumar — Salesforce Developer &amp; SAP Integration Specialist</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<!-- ════════════════════════════════════════
-     CURSOR
-════════════════════════════════════════ -->
-<div class="cursor"      id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-  
+  <!-- =========================================================================
+       SALESFORCE LIGHTNING GLOBAL GLASS HEADER (WITH DARK/LIGHT TOGGLE)
+       ========================================================================= -->
+  <header class="sf-header" id="globalHeader">
+    <div class="sf-header-container">
+      <a href="#parallax-landing" class="sf-brand">
+        <div class="sf-cloud-logo">
+          <svg viewBox="0 0 100 70" width="38" height="27" fill="#00A1E0">
+            <path d="M79.5 28.5c-1.8-11.2-11.5-19.8-23.2-19.8-8.2 0-15.5 4.3-19.7 10.9-2.7-1.7-5.9-2.7-9.3-2.7-9.5 0-17.3 7.6-17.6 17.1C4.1 36.1 0 42.6 0 50c0 10.5 8.5 19 19 19h59.5c11.9 0 21.5-9.6 21.5-21.5 0-10.4-7.4-19.1-17.3-21l-3.2-8z"></path>
+          </svg>
+        </div>
+        <div class="sf-brand-text">
+          <span class="sf-name">Shuvam Kumar</span>
+          <span class="sf-badge">Trailblazer &bull; Developer</span>
+        </div>
+      </a>
 
-<!-- ════════════════════════════════════════
-     LOADER
-════════════════════════════════════════ -->
-<div class="loader" id="loader">
-  <div class="loader-box">
-    <div class="loader-logo">SK<span>.</span></div>
-    <div class="loader-track"><div class="loader-bar" id="loaderBar"></div></div>
-    <p  class="loader-msg"  id="loaderMsg">Initializing Salesforce environment...</p>
-  </div>
-</div>
-<!-- ════════════════════════════════════════
-     NAVBAR
-════════════════════════════════════════ -->
-<nav id="navbar">
-  <a href="#home" class="nav-logo">SK<span class="ndot">.</span></a>
+      <nav class="sf-nav">
+        <a href="#parallax-landing" class="sf-nav-link">Intro</a>
+        <a href="#hero" class="sf-nav-link">Overview</a>
+        <a href="#app-zoom-stage" class="sf-nav-link">Interactive Architecture</a>
+        <a href="#projects-showcase" class="sf-nav-link">Projects &amp; Gallery</a>
+        <a href="#contact-section" class="sf-nav-link">Contact</a>
+      </nav>
 
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#home"       class="nav-link">Home</a></li>
-    <li><a href="#experience" class="nav-link">Experience</a></li>
-    <li><a href="#skills"     class="nav-link">Skills</a></li>
-    <li><a href="#projects"   class="nav-link">Projects</a></li>
-    <li><a href="#contact"    class="nav-link">Contact</a></li>
-  </ul>
-
-  <div class="nav-right">
-    <a href="Shuvam_Kumar.pdf" class="btn-cv" download>Download CV</a>
-    <!-- ★ DARK / LIGHT TOGGLE ★ -->
-    <button class="theme-btn" id="themeBtn" title="Toggle dark / light mode">
-      <span class="theme-icon" id="themeIcon">🌙</span>
-    </button>
-    <button class="burger" id="burger" aria-label="menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- Mobile drawer -->
-<div class="mob-drawer" id="mobDrawer">
-  <button class="mob-close" id="mobClose">✕</button>
-  <a href="#home"       class="mob-link">Home</a>
-  <a href="#experience" class="mob-link">Experience</a>
-  <a href="#skills"     class="mob-link">Skills</a>
-  <a href="#projects"   class="mob-link">Projects</a>
-  <a href="#contact"    class="mob-link">Contact</a>
-</div>
-<div class="mob-overlay" id="mobOverlay"></div>
-
-<!-- ════════════════════════════════════════
-     HERO  —  Fixed parallax: space/cloud
-════════════════════════════════════════ -->
-<section id="home" class="section hero">
-  <!-- FIXED BACKGROUND IMAGE (stays still while page scrolls) -->
-  <div class="parallax-bg"
-       style="background-image:url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80&auto=format&fit=crop')">
-  </div>
-  <div class="p-overlay hero-ov"></div>
-  <canvas id="ptcCanvas" class="ptc-canvas"></canvas>
-
-  <div class="hero-content">
-    <div class="hero-badge fade-up">
-      <span class="bdot"></span> Available for Opportunities
-    </div>
-
-    <!-- BIG NAME — kept exactly as original -->
-    <h1 class="hero-name fade-up d1">
-      SHUVAM <span class="naccent">KUMAR</span><span class="nperiod">.</span>
-    </h1>
-
-    <div class="hero-role fade-up d2">
-      Salesforce <span class="typed-role" id="typedRole">Developer &amp; Administrator</span>
-    </div>
-
-    <p class="hero-desc fade-up d3">
-      Building intelligent CRM solutions with <strong>Apex</strong>, <strong>Lightning Web Components</strong>, and <strong>SAP integrations</strong>.<br>
-      Turning complex enterprise challenges into elegant Salesforce experiences.
-    </p>
-
-    <div class="hero-actions fade-up d4">
-      <a href="#contact"    class="btn btn-primary">Hire Me</a>
-      <a href="#experience" class="btn btn-outline">My Journey</a>
-    </div>
-
-    <!-- Stats — same as original -->
-    <div class="hero-stats fade-up d5">
-      <div class="hst">
-        <span class="hst-n" data-target="2">0</span><span class="hst-u">+</span>
-        <div class="hst-l">Years Exp</div>
-      </div>
-      <div class="hst-div"></div>
-      <div class="hst">
-        <span class="hst-n" data-target="25">0</span><span class="hst-u">+</span>
-        <div class="hst-l">Users Managed</div>
-      </div>
-      <div class="hst-div"></div>
-      <div class="hst">
-        <span class="hst-n" data-target="40">0</span><span class="hst-u">%</span>
-        <div class="hst-l">Efficiency ↑</div>
+      <div class="sf-header-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle Dark or Light Mode" title="Toggle Dark / Light Theme">
+          <span id="themeToggleIcon">🌙</span>
+        </button>
+        <a href="Shuvam_Kumar.pdf" download class="sf-btn sf-btn-outline">Download CV</a>
+        <a href="#contact-section" class="sf-btn sf-btn-primary">Hire Me</a>
       </div>
     </div>
+  </header>
+
+  <!-- =========================================================================
+       0. OSMO 4-LAYER MOUNTAIN PARALLAX LANDING PAGE (EXACT PROMPT & IMAGE)
+       ========================================================================= -->
+  <div class="parallax" id="parallax-landing">
+    <section class="parallax__header">
+      <div class="parallax__visuals">
+        <div class="parallax__black-line-overflow"></div>
+        
+        <div data-parallax-layers class="parallax__layers">
+          <!-- Layer 1: Sky & Moon Background (yPercent: 70) -->
+          <img
+            src="https://cdn.21st.dev/assets/mirror/a4/a43f4eae3459c461345ee676f12d6e1ddca65e8a5279a5af00d475b17ff83aea.webp"
+            loading="eager"
+            width="800"
+            data-parallax-layer="1"
+            alt="Mountain Sky Layer"
+            class="parallax__layer-img"
+          />
+
+          <!-- Layer 2: Midground Snow Mountain Peaks (yPercent: 55) -->
+          <img
+            src="https://cdn.21st.dev/assets/mirror/50/50ca6a0d36d2780bfcb469d6db7eaec0be7e0d2961ba69a63d2a1473b040338d.webp"
+            loading="eager"
+            width="800"
+            data-parallax-layer="2"
+            alt="Snow Mountain Layer"
+            class="parallax__layer-img"
+          />
+
+          <!-- Layer 3: Giant "Shuvam" Title Behind the Person (yPercent: 40) -->
+          <div data-parallax-layer="3" class="parallax__layer-title">
+            <h2 class="parallax__title">Shuvam</h2>
+          </div>
+
+          <!-- Layer 4: Foreground Person Cutout with Arms Raised (yPercent: 10) -->
+          <img
+            src="https://cdn.21st.dev/assets/mirror/e1/e1c8137b5f971c3b3ec1a0f9e79b9c17018767005f844a10082b890472afecfb.webp"
+            loading="eager"
+            width="800"
+            data-parallax-layer="4"
+            alt="Foreground Traveler Layer"
+            class="parallax__layer-img"
+          />
+        </div>
+
+        <!-- Smooth gradient fade into the next section -->
+        <div class="parallax__fade"></div>
+
+        <!-- Scroll Cue & Osmo Credit -->
+        <div class="osmo-scroll-cue">
+          <span>Scroll Down to Enter Salesforce Portfolio</span>
+          <div class="osmo-scroll-line"></div>
+        </div>
+      </div>
+    </section>
   </div>
 
-  <!-- Floating profile card — same as original -->
-  <div class="hero-card fade-right">
-    <div class="hc-top">
-      <div class="hc-avatar">SK</div>
-      <div>
-        <div class="hc-name">Shuvam Kumar</div>
-        <div class="hc-role">Salesforce Developer</div>
+  <!-- =========================================================================
+       1. SALESFORCE HERO OVERVIEW (WITH GLASSMORPHISM & YOUR LOCAL IMAGES)
+       ========================================================================= -->
+  <section id="hero" class="sf-hero-parallax">
+    
+    <!-- Layer 1: Soft Sky Blue Horizon Backdrop -->
+    <div class="p-layer layer-sky" data-parallax-speed="0.15"></div>
+
+    <!-- Layer 2: Distant Vector Cloud Shapes -->
+    <div class="p-layer layer-distant-clouds" data-parallax-speed="0.35">
+      <div class="cloud-shape c-1"></div>
+      <div class="cloud-shape c-2"></div>
+      <div class="cloud-shape c-3"></div>
+    </div>
+
+    <!-- Layer 3: Floating Glass Salesforce Ecosystem Badges -->
+    <div class="p-layer layer-badges" data-parallax-speed="0.55">
+      <div class="float-pill fp-1 glass-surface">
+        <span class="fp-dot green"></span> 100% Production Uptime
+      </div>
+      <div class="float-pill fp-2 glass-surface">
+        <span>⚡</span> Lightning Web Components
+      </div>
+      <div class="float-pill fp-3 glass-surface">
+        <span>🔗</span> Bi-Directional SAP Sync
+      </div>
+      <div class="float-pill fp-4 glass-surface">
+        <span>🛡️</span> 85%+ Apex Code Coverage
       </div>
     </div>
-    <div class="hc-tags">
-      <span>Apex</span><span>LWC</span><span>Flows</span><span>SAP</span>
-    </div>
-    <div class="hc-rows">
-      <div><span>⚡</span> Apex Developer</div>
-      <div><span>✅</span> 25+ Users Managed</div>
-      <div><span>🔗</span> SAP Integration</div>
-    </div>
-    <div class="hc-status"><span class="sdot"></span> Open to Roles</div>
-  </div>
 
-  <div class="scroll-cue">
-    <span>Scroll</span>
-    <div class="scroll-bar"></div>
-  </div>
-</section>
+    <!-- Layer 4: Main Hero Content & Portrait Card -->
+    <div class="sf-hero-container" data-parallax-speed="0.05">
+      <div class="hero-left">
+        <div class="trailhead-eyebrow">
+          <span class="th-tag">ENTERPRISE CRM ENGINEERING</span>
+          <span class="th-loc">📍Dhanbad, India</span>
+        </div>
 
-<!-- ════════════════════════════════════════
-     EXPERIENCE  —  Fixed parallax: data viz
-════════════════════════════════════════ -->
-<section id="experience" class="section exp-sec">
-  <div class="parallax-bg"
-       style="background-image:url('https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1920&q=80&auto=format&fit=crop')">
-  </div>
-  <div class="p-overlay exp-ov"></div>
+        <h1 class="sf-hero-title">
+          Building Scalable <span class="sf-highlight">Salesforce</span> Solutions &amp; <span class="sf-highlight">SAP</span> Integrations.
+        </h1>
 
-  <div class="container">
-    <p  class="eyebrow  fade-up">Career</p>
-    <h2 class="sec-title fade-up d1">Professional <span>Journey</span></h2>
-    <p  class="sec-sub   fade-up d2">Hands-on experience delivering enterprise Salesforce solutions in a production environment.</p>
+        <p class="sf-hero-desc">
+          Hi, I’m <strong>Shuvam Kumar</strong> — a Salesforce Developer &amp; Administrator at <strong>Unbrako (DFL)</strong>. I turn complex manual enterprise operations into automated, touchless workflows across Salesforce Cloud and SAP ERP.
+        </p>
 
-    <div class="timeline">
-      <div class="tl-spine"></div>
+        <div class="hero-cta-row">
+          <a href="#app-zoom-stage" class="sf-btn sf-btn-primary sf-btn-lg">
+            Scroll into My Tech Stack ↓
+          </a>
+          <a href="#projects-showcase" class="sf-btn sf-btn-outline sf-btn-lg">
+            View 6 Production Builds
+          </a>
+        </div>
 
-      <!-- Card 1 -->
-      <div class="tl-item fade-left">
-        <div class="tl-dot"></div>
-        <div class="tl-card glass-card">
-          <div class="tl-head">
-            <div>
-              <h3 class="tl-title">Salesforce Developer &amp; Administrator</h3>
-              <div class="tl-co"><strong>Unbrako (DFL)</strong> · Ludhiana, Punjab</div>
-            </div>
-            <span class="tl-pill">2024 – 2026</span>
+        <!-- Quick Summary Bar -->
+        <div class="sf-quick-metrics glass-surface">
+          <div class="qm-item">
+            <strong>2+ Years</strong>
+            <span>Production Exp</span>
           </div>
-          <ul class="tl-list">
-            <li>Managed daily Salesforce operations for <strong>25+ users</strong> — user provisioning, profiles, permission sets, and security compliance, maintaining <strong>100% org uptime</strong>.</li>
-            <li>Automated <strong>5+ complex business processes</strong> using Flows, Process Builder, and Approval Processes, reducing manual effort by <strong>40%</strong>.</li>
-            <li>Developed Apex classes, triggers, and test classes achieving <strong>85%+ code coverage</strong>, ensuring deployment-ready quality.</li>
-            <li>Built reusable Lightning Web Components (LWC) integrated with Visualforce pages using Salesforce CLI &amp; VS Code.</li>
-            <li>Implemented PDF generation, JSON parsing, and custom file handling within Apex for document management workflows.</li>
-          </ul>
-          <div class="chips">
-            <span class="chip">Apex</span><span class="chip">LWC</span><span class="chip">Flows</span>
-            <span class="chip">Process Builder</span><span class="chip">Data Loader</span><span class="chip">SOQL</span>
+          <div class="qm-divider"></div>
+          <div class="qm-item">
+            <strong>25+ Users</strong>
+            <span>Managed Daily</span>
+          </div>
+          <div class="qm-divider"></div>
+          <div class="qm-item">
+            <strong>40% Faster</strong>
+            <span>Process Automation</span>
           </div>
         </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="tl-item fade-right">
-        <div class="tl-dot"></div>
-        <div class="tl-card glass-card">
-          <div class="tl-head">
-            <div>
-              <h3 class="tl-title">Data Management &amp; SAP Integration</h3>
-              <div class="tl-co"><strong>Unbrako (DFL)</strong> · Cross-Platform Integration</div>
+      <!-- Right Column: Glass SLDS Profile Card with Your Local Images & Fallback -->
+      <div class="hero-right">
+        <div class="sf-profile-card glass-surface">
+          <div class="profile-banner-img">
+            <img
+              src="Screenshot 2026-10-26 191956.png"
+              onerror="this.src='https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&auto=format&fit=crop'"
+              alt="Enterprise Office Cover"
+            />
+          </div>
+          <div class="profile-avatar-wrap">
+            <img
+              src="IMG_2786.jpeg"
+              onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&q=80&auto=format&fit=crop'"
+              alt="Shuvam Kumar Portrait"
+              class="profile-avatar"
+            />
+            <span class="online-status" title="Available for Opportunities"></span>
+          </div>
+          <div class="profile-card-body">
+            <h3>Shuvam Kumar</h3>
+            <p class="profile-headline">Salesforce Developer &amp; Administrator</p>
+            <div class="profile-pills">
+              <span>Apex</span>
+              <span>LWC</span>
+              <span>Flows</span>
+              <span>SAP SD/MM</span>
+              <span>REST API</span>
             </div>
-            <span class="tl-pill">2024 – 2026</span>
-          </div>
-          <ul class="tl-list">
-            <li>Supported <strong>bi-directional Salesforce-SAP integration</strong> ensuring real-time data sync and operational continuity across both platforms.</li>
-            <li>Managed customer and material master data synchronization between Salesforce and SAP, reducing data discrepancies by <strong>30%</strong>.</li>
-            <li>Handled end-to-end order-to-cash cycle — sales order creation, billing, and invoice processing in SAP.</li>
-            <li>Executed SAP table data extraction and sync scripts for cross-platform reporting and analytics.</li>
-            <li>Performed bulk data migrations using Data Loader with deduplication, cleansing, and validation ensuring <strong>100% integrity</strong>.</li>
-          </ul>
-          <div class="chips">
-            <span class="chip">SAP SD/MM</span><span class="chip">ETL</span><span class="chip">REST API</span>
-            <span class="chip">Data Migration</span><span class="chip">Excel VLOOKUP</span><span class="chip">FileZilla</span>
-          </div>
-        </div>
-      </div>
-    </div><!-- /timeline -->
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════
-     SKILLS  —  Fixed parallax: code screen
-     ★ FLIP CARDS PRESERVED ★
-════════════════════════════════════════ -->
-<section id="skills" class="section skills-sec">
-  <div class="parallax-bg"
-       style="background-image:url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=1920&q=80&auto=format&fit=crop')">
-  </div>
-  <div class="p-overlay skills-ov"></div>
-
-  <div class="container">
-    <p  class="eyebrow  fade-up">Expertise</p>
-    <h2 class="sec-title fade-up d1">Core <span>Skills</span></h2>
-    <p  class="sec-sub   fade-up d2">Hover each card to see proficiency levels. On mobile, both sides are visible automatically.</p>
-
-    <!-- ★ SKILL FLIP CARDS — exactly as original ★ -->
-    <div class="flip-grid">
-
-      <div class="flip-card fade-up">
-        <div class="flip-inner">
-          <div class="flip-front glass-card">
-            <div class="fc-icon">⚡</div>
-            <h3 class="fc-title">Salesforce Development</h3>
-            <p class="fc-desc">Apex, LWC, Visualforce, Triggers, and Test Classes with 85%+ coverage.</p>
-            <div class="fc-hint">Hover to see proficiency →</div>
-          </div>
-          <div class="flip-back glass-card">
-            <div class="fb-title">Proficiency Levels</div>
-            <div class="sbars">
-              <div class="sbar"><span class="sl">Apex</span><div class="st"><div class="sf" data-w="90"></div></div><span class="sp">90%</span></div>
-              <div class="sbar"><span class="sl">LWC</span><div class="st"><div class="sf" data-w="85"></div></div><span class="sp">85%</span></div>
-              <div class="sbar"><span class="sl">Flows &amp; Automation</span><div class="st"><div class="sf" data-w="88"></div></div><span class="sp">88%</span></div>
-              <div class="sbar"><span class="sl">SOQL / SOSL</span><div class="st"><div class="sf" data-w="82"></div></div><span class="sp">82%</span></div>
+            <div class="profile-meta-list">
+              <div class="pm-row">
+                <span class="pm-lbl">Current Org</span>
+                <span class="pm-val">Unbrako (DFL) &bull; Present</span>
+              </div>
+              <div class="pm-row">
+                <span class="pm-lbl">Education</span>
+                <span class="pm-val">B.Tech CSE &bull; IK Gujral PTU</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="flip-card fade-up d1">
-        <div class="flip-inner">
-          <div class="flip-front glass-card">
-            <div class="fc-icon">🔗</div>
-            <h3 class="fc-title">Integration &amp; Admin</h3>
-            <p class="fc-desc">Salesforce–SAP integration, REST APIs, Data Loader, and org management for 25+ users.</p>
-            <div class="fc-hint">Hover to see proficiency →</div>
-          </div>
-          <div class="flip-back glass-card">
-            <div class="fb-title">Proficiency Levels</div>
-            <div class="sbars">
-              <div class="sbar"><span class="sl">Salesforce Admin</span><div class="st"><div class="sf" data-w="90"></div></div><span class="sp">90%</span></div>
-              <div class="sbar"><span class="sl">SAP Integration</span><div class="st"><div class="sf" data-w="80"></div></div><span class="sp">80%</span></div>
-              <div class="sbar"><span class="sl">REST API / JSON</span><div class="st"><div class="sf" data-w="78"></div></div><span class="sp">78%</span></div>
-              <div class="sbar"><span class="sl">Data Loader / ETL</span><div class="st"><div class="sf" data-w="85"></div></div><span class="sp">85%</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="flip-card fade-up d2">
-        <div class="flip-inner">
-          <div class="flip-front glass-card">
-            <div class="fc-icon">🌐</div>
-            <h3 class="fc-title">Web Technologies</h3>
-            <p class="fc-desc">HTML5, CSS3, JavaScript ES6+, and Salesforce CLI-based deployments via VS Code.</p>
-            <div class="fc-hint">Hover to see proficiency →</div>
-          </div>
-          <div class="flip-back glass-card">
-            <div class="fb-title">Proficiency Levels</div>
-            <div class="sbars">
-              <div class="sbar"><span class="sl">JavaScript</span><div class="st"><div class="sf" data-w="78"></div></div><span class="sp">78%</span></div>
-              <div class="sbar"><span class="sl">HTML5 / CSS3</span><div class="st"><div class="sf" data-w="82"></div></div><span class="sp">82%</span></div>
-              <div class="sbar"><span class="sl">Visualforce</span><div class="st"><div class="sf" data-w="75"></div></div><span class="sp">75%</span></div>
-              <div class="sbar"><span class="sl">Salesforce CLI</span><div class="st"><div class="sf" data-w="80"></div></div><span class="sp">80%</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /flip-grid -->
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════
-     PROJECTS  —  Fixed parallax: circuit board
-     ★ PROJECT FLIP CARDS PRESERVED ★
-════════════════════════════════════════ -->
-<section id="projects" class="section proj-sec">
-  <div class="parallax-bg"
-       style="background-image:url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80&auto=format&fit=crop')">
-  </div>
-  <div class="p-overlay proj-ov"></div>
-
-  <div class="container">
-    <p  class="eyebrow  fade-up">Lab</p>
-    <h2 class="sec-title fade-up d1">Projects <span>&amp; Builds</span></h2>
-    <p  class="sec-sub   fade-up d2">Hover each card to see impact &amp; key outcomes. Real-world Salesforce solutions.</p>
-
-    <!-- ★ PROJECT FLIP CARDS — exactly as original ★ -->
-    <div class="proj-grid">
-
-      <!-- P1 -->
-      <div class="proj-flip fade-up">
-        <div class="proj-inner">
-          <div class="proj-front glass-card">
-            <div class="pnum">01</div>
-            <h3 class="ptitle">Salesforce–SAP Bi-Directional Sync</h3>
-            <p class="pdesc">Real-time integration pipeline between Salesforce and SAP for customer data, material master, and order synchronization.</p>
-            <div class="chips">
-              <span class="chip">Apex</span><span class="chip">SAP SD</span><span class="chip">REST API</span><span class="chip">JSON</span>
-            </div>
-          </div>
-          <div class="proj-back glass-card">
-            <div class="pimp-label">Key Impact</div>
-            <div class="pimp-title">Eliminated manual reconciliation across 2 enterprise platforms</div>
-            <p class="pimp-desc">Enabled real-time data flow, reduced data discrepancies by 30%, and improved cross-team operational efficiency.</p>
-            <div class="psandbox">🧪 Sandbox Ready</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- P2 -->
-      <div class="proj-flip fade-up d1">
-        <div class="proj-inner">
-          <div class="proj-front glass-card">
-            <div class="pnum">02</div>
-            <h3 class="ptitle">Approval Process Automation Engine</h3>
-            <p class="pdesc">Multi-level Approval Processes using Flows and Process Builder for order-to-cash workflows with escalation logic.</p>
-            <div class="chips">
-              <span class="chip">Flows</span><span class="chip">Process Builder</span><span class="chip">Apex</span>
-            </div>
-          </div>
-          <div class="proj-back glass-card">
-            <div class="pimp-label">Key Impact</div>
-            <div class="pimp-title">Reduced approval cycle time by 40%</div>
-            <p class="pimp-desc">Eliminated email-based approvals, added audit trail, and enabled mobile approval via Salesforce app.</p>
-            <div class="psandbox">🧪 Sandbox Ready</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- P3 -->
-      <div class="proj-flip fade-up d2">
-        <div class="proj-inner">
-          <div class="proj-front glass-card">
-            <div class="pnum">03</div>
-            <h3 class="ptitle">Apex PDF Generation System</h3>
-            <p class="pdesc">Automated PDF generation and file handling within Apex for dynamic invoice and report creation from Salesforce records.</p>
-            <div class="chips">
-              <span class="chip">Apex</span><span class="chip">PDF</span><span class="chip">JSON</span><span class="chip">Visualforce</span>
-            </div>
-          </div>
-          <div class="proj-back glass-card">
-            <div class="pimp-label">Key Impact</div>
-            <div class="pimp-title">Zero manual document generation for invoices</div>
-            <p class="pimp-desc">Auto-generates invoices on order closure, attaches to the record, and emails to the contact — fully touchless.</p>
-            <div class="psandbox">🧪 Sandbox Ready</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- P4 -->
-      <div class="proj-flip fade-up">
-        <div class="proj-inner">
-          <div class="proj-front glass-card">
-            <div class="pnum">04</div>
-            <h3 class="ptitle">LWC Custom Component Library</h3>
-            <p class="pdesc">Reusable Lightning Web Components for data tables, search filters, and record actions with Visualforce integration.</p>
-            <div class="chips">
-              <span class="chip">LWC</span><span class="chip">JavaScript</span><span class="chip">Salesforce CLI</span>
-            </div>
-          </div>
-          <div class="proj-back glass-card">
-            <div class="pimp-label">Key Impact</div>
-            <div class="pimp-title">Reused across 4+ pages in the org</div>
-            <p class="pimp-desc">Standardized UI patterns, reduced development time for new pages by 60%, and improved user experience for 25+ users.</p>
-            <div class="psandbox">🧪 Sandbox Ready</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- P5 -->
-      <div class="proj-flip fade-up d1">
-        <div class="proj-inner">
-          <div class="proj-front glass-card">
-            <div class="pnum">05</div>
-            <h3 class="ptitle">Bulk Data Migration Tool</h3>
-            <p class="pdesc">Large-scale data migration using Data Loader with custom deduplication logic, cleansing scripts, and validation rules.</p>
-            <div class="chips">
-              <span class="chip">Data Loader</span><span class="chip">ETL</span><span class="chip">Apex</span><span class="chip">Excel</span>
-            </div>
-          </div>
-          <div class="proj-back glass-card">
-            <div class="pimp-label">Key Impact</div>
-            <div class="pimp-title">100% data integrity post-migration</div>
-            <p class="pimp-desc">Migrated thousands of records with zero duplicates, automated cleansing transformations, and built rollback capability.</p>
-            <div class="psandbox">🧪 Sandbox Ready</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- P6 -->
-      <div class="proj-flip fade-up d2">
-        <div class="proj-inner">
-          <div class="proj-front glass-card">
-            <div class="pnum">06</div>
-            <h3 class="ptitle">User Access &amp; Security Framework</h3>
-            <p class="pdesc">Comprehensive user management architecture with profiles, permission sets, sharing rules, and security compliance.</p>
-            <div class="chips">
-              <span class="chip">Admin</span><span class="chip">Profiles</span><span class="chip">Permissions</span><span class="chip">Security</span>
-            </div>
-          </div>
-          <div class="proj-back glass-card">
-            <div class="pimp-label">Key Impact</div>
-            <div class="pimp-title">Zero unauthorized data access incidents</div>
-            <p class="pimp-desc">Role hierarchy mapped to business units, field-level security applied to 40+ sensitive fields, OWD configured for compliance.</p>
-            <div class="psandbox">🧪 Sandbox Ready</div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /proj-grid -->
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════
-     ACHIEVEMENTS BANNER
-════════════════════════════════════════ -->
-<section class="section ach-sec">
-  <div class="parallax-bg"
-       style="background-image:url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=80&auto=format&fit=crop')">
-  </div>
-  <div class="p-overlay ach-ov"></div>
-
-  <div class="container">
-    <div class="ach-strip">
-      <div class="ach-item fade-up">
-        <div class="ach-top"><span class="ach-n" data-target="15">0</span><span class="ach-u">h+</span></div>
-        <div class="ach-l">Saved Per Week</div>
-        <div class="ach-s">Through Flows &amp; Apex automation</div>
-      </div>
-      <div class="ach-div"></div>
-      <div class="ach-item fade-up d1">
-        <div class="ach-top"><span class="ach-n" data-target="30">0</span><span class="ach-u">%</span></div>
-        <div class="ach-l">Fewer Data Errors</div>
-        <div class="ach-s">Via validation &amp; deduplication</div>
-      </div>
-      <div class="ach-div"></div>
-      <div class="ach-item fade-up d2">
-        <div class="ach-top"><span class="ach-n" data-target="85">0</span><span class="ach-u">%+</span></div>
-        <div class="ach-l">Code Coverage</div>
-        <div class="ach-s">All Apex classes &amp; triggers</div>
-      </div>
-      <div class="ach-div"></div>
-      <div class="ach-item fade-up d3">
-        <div class="ach-top"><span class="ach-n" data-target="100">0</span><span class="ach-u">%</span></div>
-        <div class="ach-l">Org Uptime</div>
-        <div class="ach-s">Zero major incidents, 2 years</div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ════════════════════════════════════════
-     CONTACT
-════════════════════════════════════════ -->
-<section id="contact" class="section contact-sec">
-  <div class="parallax-bg"
-       style="background-image:url('https://images.unsplash.com/photo-1534536281715-e28d76689b4d?w=1920&q=80&auto=format&fit=crop')">
-  </div>
-  <div class="p-overlay contact-ov"></div>
+    <!-- Layer 5: Foreground Cloud Wave Divider -->
+    <div class="hero-wave-bottom">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+        <path class="wave-fill" d="M0,40 C320,110 720,-20 1440,60 L1440,100 L0,100 Z"></path>
+      </svg>
+    </div>
+  </section>
 
-  <div class="container">
-    <p  class="eyebrow  fade-up">Get In Touch</p>
-    <h2 class="sec-title fade-up d1">Let's Build <span>Together</span></h2>
-    <p  class="sec-sub   fade-up d2">Fill in the form and click Send — your mail app will open with everything pre-filled, ready to go.</p>
+  <!-- =========================================================================
+       2. SCROLL-DRIVEN INTERACTIVE APP LAUNCHER ZOOM
+       Dock -> Zoom into Salesforce App -> Pan to SAP App -> Zoom Out to Page
+       ========================================================================= -->
+  <section id="app-zoom-stage" class="zoom-track-wrapper">
+    <div class="sticky-viewport" id="stickyViewport">
 
-    <div class="contact-grid">
-
-      <!-- Info cards — same as original -->
-      <div class="contact-info fade-left">
-        <div class="ci glass-card"><span class="ci-icon">📧</span><div><div class="ci-lbl">Email</div><a class="ci-val" href="mailto:shuvam9931@gmail.com">shuvam9931@gmail.com</a></div></div>
-        <div class="ci glass-card"><span class="ci-icon">📱</span><div><div class="ci-lbl">Phone</div><a class="ci-val" href="tel:+919939364141">+91 9939364141</a></div></div>
-        <div class="ci glass-card"><span class="ci-icon">📍</span><div><div class="ci-lbl">Location</div><div class="ci-val">Dhanbad, Jharkhand 828135</div></div></div>
-        <div class="ci glass-card"><span class="ci-icon">🎓</span><div><div class="ci-lbl">Education</div><div class="ci-val">B.Tech CSE · IK Gujral PTU · 2024</div></div></div>
+      <!-- Top Progress Stepper -->
+      <div class="scroll-progress-hud glass-surface">
+        <div class="hud-step active" id="stepDock">1. Enterprise App Dock</div>
+        <div class="hud-arrow">→</div>
+        <div class="hud-step" id="stepSf">2. Salesforce Achievements</div>
+        <div class="hud-arrow">→</div>
+        <div class="hud-step" id="stepSap">3. SAP Integration &amp; Code</div>
+        <div class="hud-arrow">→</div>
+        <div class="hud-step" id="stepExit">4. Exit to Portfolio</div>
       </div>
 
-      <!-- Form — same as original -->
-      <form class="contact-form glass-card fade-right" id="contactForm">
-        <div class="fg">
-          <label class="fl">Your Name</label>
-          <input  class="fi" type="text"  id="fname"    placeholder="Your Name"          required />
-        </div>
-        <div class="fg">
-          <label class="fl">Your Email Address</label>
-          <input  class="fi" type="email" id="femail"   placeholder="Your Email Address" required />
-        </div>
-        <div class="fg">
-          <label class="fl">Message</label>
-          <textarea class="fi fta" id="fmsg" placeholder="Message" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Send Message →</button>
-      </form>
+      <!-- THE 3D CAMERA CANVAS -->
+      <div class="camera-canvas" id="cameraCanvas">
 
+        <!-- STAGE A: ENTERPRISE APP LAUNCHER DOCK -->
+        <div class="app-launcher-box glass-surface" id="launcherView">
+          <span class="launcher-eyebrow">SCROLL TO LAUNCH &amp; INSPECT</span>
+          <h2 class="launcher-title">Enterprise Cloud Workspace</h2>
+          <p class="launcher-sub">Keep scrolling down — the camera will zoom inside Salesforce first, then pan across to SAP ERP.</p>
+          
+          <div class="app-icons-row">
+            <div class="app-tile sf-tile" id="sfAppIcon">
+              <div class="tile-icon sf-bg">☁️</div>
+              <span class="tile-name">Salesforce CRM</span>
+              <span class="tile-tag">Org Admin &amp; Apex</span>
+            </div>
+            <div class="connector-pipe">
+              <span class="pipe-label">Bi-Directional REST Sync</span>
+              <div class="pipe-line"></div>
+            </div>
+            <div class="app-tile sap-tile" id="sapAppIcon">
+              <div class="tile-icon sap-bg">🏢</div>
+              <span class="tile-name">SAP ERP S/4</span>
+              <span class="tile-tag">SD/MM &amp; Callouts</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE B: INSIDE SALESFORCE LIGHTNING APP (ZOOM TARGET 1) -->
+        <div class="app-window sf-window glass-surface" id="sfAppWindow">
+          <div class="slds-app-bar">
+            <div class="slds-waffle">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+            <div class="slds-app-title">Salesforce Production &bull; Unbrako (DFL)</div>
+            <div class="slds-tabs">
+              <span class="tab active">Achievements &amp; Impact</span>
+              <span class="tab">Apex &amp; LWC</span>
+              <span class="tab">Flow Builder</span>
+              <span class="tab">User Security (25+)</span>
+            </div>
+            <div class="slds-org-badge">Org Uptime: 100%</div>
+          </div>
+
+          <div class="window-content-grid">
+            <div class="sf-achievements-col">
+              <div class="slds-card-header">
+                <span class="badge-sky">SALESFORCE DEVELOPER &amp; ADMIN (2024–2026)</span>
+                <h3>Production Org Achievements &amp; Automation</h3>
+              </div>
+
+              <div class="sf-kpi-grid">
+                <div class="sf-kpi-box glass-surface">
+                  <div class="kpi-num">40%</div>
+                  <div class="kpi-title">Manual Effort Reduced</div>
+                  <p>Automated 5+ complex multi-department approval and order workflows via Flows.</p>
+                </div>
+                <div class="sf-kpi-box glass-surface">
+                  <div class="kpi-num">85%+</div>
+                  <div class="kpi-title">Apex Code Coverage</div>
+                  <p>Built robust Triggers, Batch Apex, and Test Classes for error-free production deployments.</p>
+                </div>
+                <div class="sf-kpi-box glass-surface">
+                  <div class="kpi-num">15h+</div>
+                  <div class="kpi-title">Saved Every Week</div>
+                  <p>Touchless Apex PDF invoice generation &amp; automatic email dispatch upon order closure.</p>
+                </div>
+                <div class="sf-kpi-box glass-surface">
+                  <div class="kpi-num">25+</div>
+                  <div class="kpi-title">Active Users Managed</div>
+                  <p>Configured Profiles, Permission Sets, OWD, and Field-Level Security with 0 breaches.</p>
+                </div>
+              </div>
+
+              <div class="sf-skill-bars-card glass-surface">
+                <h4>Core Salesforce Platform Proficiency</h4>
+                <div class="skill-bar-row">
+                  <span class="sb-name">Apex Classes &amp; Triggers</span>
+                  <div class="sb-track"><div class="sb-fill w-90"></div></div>
+                  <span class="sb-pct">90%</span>
+                </div>
+                <div class="skill-bar-row">
+                  <span class="sb-name">Flows &amp; Process Automation</span>
+                  <div class="sb-track"><div class="sb-fill w-88"></div></div>
+                  <span class="sb-pct">88%</span>
+                </div>
+                <div class="skill-bar-row">
+                  <span class="sb-name">Lightning Web Components (LWC)</span>
+                  <div class="sb-track"><div class="sb-fill w-85"></div></div>
+                  <span class="sb-pct">85%</span>
+                </div>
+                <div class="skill-bar-row">
+                  <span class="sb-name">SOQL / SOSL &amp; Data Loader</span>
+                  <div class="sb-track"><div class="sb-fill w-85"></div></div>
+                  <span class="sb-pct">85%</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sf-visual-col">
+              <div class="sf-screenshot-frame glass-surface">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop" alt="Salesforce Lightning Analytics Dashboard" />
+                <div class="frame-caption">
+                  <strong>Reusable LWC Component Library</strong>
+                  <span>Standardized custom tables &amp; record filters across 4+ org pages, cutting dev time by 60%.</span>
+                </div>
+              </div>
+
+              <div class="sf-checklist-card glass-surface">
+                <h4>Delivered Org Capabilities</h4>
+                <ul>
+                  <li>✅ Custom LWC embedded inside Visualforce &amp; Lightning Record Pages</li>
+                  <li>✅ Dynamic PDF Invoice engine using Apex &amp; Visualforce renderAs=&quot;pdf&quot;</li>
+                  <li>✅ Bulk ETL migration with 100% deduplication &amp; validation rules</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE C: INSIDE SAP INTEGRATION & CALLOUT APP (ZOOM TARGET 2) -->
+        <div class="app-window sap-window glass-surface" id="sapAppWindow">
+          <div class="slds-app-bar sap-header-bar">
+            <div class="sap-logo-pill">SAP</div>
+            <div class="slds-app-title">SAP S/4HANA &amp; Salesforce Cross-Platform Connector</div>
+            <div class="slds-tabs">
+              <span class="tab active">Order-to-Cash Sync</span>
+              <span class="tab">Master Data (SD/MM)</span>
+              <span class="tab">Apex REST Callouts</span>
+            </div>
+            <div class="slds-org-badge sap-status-ok">30% Fewer Data Errors</div>
+          </div>
+
+          <div class="window-content-grid sap-grid">
+            <div class="sap-workflow-col">
+              <span class="badge-sky">BI-DIRECTIONAL ERP INTEGRATION</span>
+              <h3>Real-Time Salesforce ↔ SAP Synchronization</h3>
+              <p class="sap-lead">
+                Engineered and maintained the bridge between Salesforce CRM and SAP SD/MM modules to keep Customer Master, Material Master, and Order-to-Cash lifecycles in lockstep.
+              </p>
+
+              <div class="sap-pipeline-steps">
+                <div class="pipe-step glass-surface">
+                  <div class="ps-num">01</div>
+                  <div class="ps-body">
+                    <strong>Customer &amp; Material Master Sync</strong>
+                    <p>Synchronized SAP Material Master &amp; pricing tables with Salesforce Products/Pricebooks, cutting discrepancies by 30%.</p>
+                  </div>
+                </div>
+                <div class="pipe-step glass-surface">
+                  <div class="ps-num">02</div>
+                  <div class="ps-body">
+                    <strong>Automated Order-to-Cash Execution</strong>
+                    <p>Closed-Won Opportunities in Salesforce automatically trigger SAP Sales Order creation, billing, and invoice generation.</p>
+                  </div>
+                </div>
+                <div class="pipe-step glass-surface">
+                  <div class="ps-num">03</div>
+                  <div class="ps-body">
+                    <strong>Bulk ETL &amp; Table Extraction</strong>
+                    <p>Executed SAP table data extractions, FileZilla transfers, and automated CSV transformations with 100% data integrity.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sap-code-col">
+              <div class="code-editor-card">
+                <div class="editor-top">
+                  <div class="editor-dots">
+                    <span class="d-r"></span><span class="d-y"></span><span class="d-g"></span>
+                  </div>
+                  <span class="editor-filename">SAP_BAPI_OrderCallout.cls — Production Apex</span>
+                  <span class="editor-tag">REST / JSON</span>
+                </div>
+                <pre class="editor-pre"><code><span class="c-kw">public with sharing class</span> <span class="c-cls">SAP_BAPI_OrderCallout</span> {
+
+  <span class="c-cm">// Invoked by Record-Triggered Flow on Order Activation</span>
+  <span class="c-an">@InvocableMethod(label='Sync Order to SAP SD')</span>
+  <span class="c-kw">public static void</span> <span class="c-fn">dispatchOrderToSAP</span>(List&lt;Id&gt; orderIds) {
+    System.enqueueJob(<span class="c-kw">new</span> <span class="c-cls">SAP_OrderQueueable</span>(orderIds));
+  }
+
+  <span class="c-kw">public static</span> HttpResponse <span class="c-fn">callSapRfcEndpoint</span>(Order ord) {
+    HttpRequest req = <span class="c-kw">new</span> HttpRequest();
+    req.setEndpoint(<span class="c-st">'callout:SAP_RFC_Gateway/sap/opu/odata/SAP/ZSD_ORDER_SRV'</span>);
+    req.setMethod(<span class="c-st">'POST'</span>);
+    req.setHeader(<span class="c-st">'Content-Type'</span>, <span class="c-st">'application/json'</span>);
+    req.setHeader(<span class="c-st">'x-csrf-token'</span>, <span class="c-st">'Fetch'</span>);
+
+    <span class="c-cm">// Build SAP BAPI_SALESORDER_CREATEFROMDAT2 Payload</span>
+    Map&lt;String, Object&gt; sapPayload = <span class="c-kw">new</span> Map&lt;String, Object&gt;{
+      <span class="c-st">'DOC_TYPE'</span>   =&gt; <span class="c-st">'ZOR'</span>,
+      <span class="c-st">'SALES_ORG'</span>  =&gt; <span class="c-st">'1000'</span>,
+      <span class="c-st">'KUNNR'</span>      =&gt; ord.Account.SAP_Customer_Code__c,
+      <span class="c-st">'NET_VALUE'</span>  =&gt; ord.TotalAmount,
+      <span class="c-st">'SF_ORD_ID'</span>  =&gt; ord.Id
+    };
+
+    req.setBody(JSON.serialize(sapPayload));
+    Http http = <span class="c-kw">new</span> Http();
+    HttpResponse res = http.send(req);
+
+    <span class="c-kw">if</span> (res.getStatusCode() == <span class="c-nm">201</span>) {
+      SAP_ResponseWrapper wrap = (SAP_ResponseWrapper) 
+        JSON.deserialize(res.getBody(), SAP_ResponseWrapper.<span class="c-kw">class</span>);
+      ord.SAP_Sales_Order_No__c = wrap.VBELN;
+      ord.Sync_Status__c = <span class="c-st">'Synced with SAP'</span>;
+      <span class="c-kw">update</span> ord;
+    }
+    <span class="c-kw">return</span> res;
+  }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="footer-inner">
-    <span class="foot-logo">SK<span>.</span></span>
-    <!--<p>© 2025 Shuvam Kumar. Crafted for Salesforce excellence.</p>-->
-    <div class="foot-links">
-      <a href="#home">Home</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact">Contact</a>
+  <!-- =========================================================================
+       3. PRODUCTION PROJECTS & REPLACEABLE IMAGE SHOWCASE (ALL 6 BUILDS)
+       ========================================================================= -->
+  <section id="projects-showcase" class="sf-projects-section">
+    <div class="sf-container">
+      <div class="sf-section-header">
+        <span class="badge-sky">PORTFOLIO GALLERY &amp; SANDBOX BUILDS</span>
+        <h2>6 Enterprise Salesforce &amp; SAP Projects</h2>
+        <p>Every card includes a replaceable cover image so you can swap in your own org screenshots anytime.</p>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Project 1 -->
+        <article class="sf-project-card glass-surface">
+          <div class="proj-img-box">
+            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&q=80&auto=format&fit=crop" alt="SAP Bi-Directional Sync" />
+            <span class="proj-num-badge">01</span>
+          </div>
+          <div class="proj-body">
+            <div class="proj-tags">
+              <span>Apex</span><span>SAP SD</span><span>REST API</span><span>JSON</span>
+            </div>
+            <h3>Salesforce–SAP Bi-Directional Sync</h3>
+            <p>Real-time integration pipeline between Salesforce and SAP for customer master, material master, and order synchronization.</p>
+            <div class="proj-impact">
+              <strong>Key Impact:</strong> Eliminated manual reconciliation across 2 platforms &amp; cut data discrepancies by 30%.
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="sf-project-card glass-surface">
+          <div class="proj-img-box">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=80&auto=format&fit=crop" alt="Approval Process Automation" />
+            <span class="proj-num-badge">02</span>
+          </div>
+          <div class="proj-body">
+            <div class="proj-tags">
+              <span>Flows</span><span>Process Builder</span><span>Approval Engine</span>
+            </div>
+            <h3>Approval Process Automation Engine</h3>
+            <p>Multi-level Approval Processes using Flows for order-to-cash discount workflows with automated escalation logic.</p>
+            <div class="proj-impact">
+              <strong>Key Impact:</strong> Reduced approval cycle time by 40% and enabled mobile approvals via Salesforce App.
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="sf-project-card glass-surface">
+          <div class="proj-img-box">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=700&q=80&auto=format&fit=crop" alt="Apex PDF Generation" />
+            <span class="proj-num-badge">03</span>
+          </div>
+          <div class="proj-body">
+            <div class="proj-tags">
+              <span>Apex</span><span>PDF</span><span>Visualforce</span><span>ContentVersion</span>
+            </div>
+            <h3>Apex PDF Generation System</h3>
+            <p>Automated PDF generation and custom file handling within Apex for dynamic invoice and report creation from records.</p>
+            <div class="proj-impact">
+              <strong>Key Impact:</strong> Zero manual document generation — auto-attaches and emails invoices on order closure.
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="sf-project-card glass-surface">
+          <div class="proj-img-box">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&q=80&auto=format&fit=crop" alt="LWC Component Library" />
+            <span class="proj-num-badge">04</span>
+          </div>
+          <div class="proj-body">
+            <div class="proj-tags">
+              <span>LWC</span><span>JavaScript ES6+</span><span>Salesforce CLI</span>
+            </div>
+            <h3>LWC Custom Component Library</h3>
+            <p>Reusable Lightning Web Components for dynamic data tables, search filters, and quick record actions in VS Code.</p>
+            <div class="proj-impact">
+              <strong>Key Impact:</strong> Reused across 4+ org pages, reducing UI development time by 60% for 25+ users.
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 5 -->
+        <article class="sf-project-card glass-surface">
+          <div class="proj-img-box">
+            <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=700&q=80&auto=format&fit=crop" alt="Bulk Data Migration" />
+            <span class="proj-num-badge">05</span>
+          </div>
+          <div class="proj-body">
+            <div class="proj-tags">
+              <span>Data Loader</span><span>ETL</span><span>Apex</span><span>Deduplication</span>
+            </div>
+            <h3>Bulk Data Migration &amp; Cleansing Tool</h3>
+            <p>Large-scale data migration using Data Loader with custom deduplication logic, cleansing scripts, and validation rules.</p>
+            <div class="proj-impact">
+              <strong>Key Impact:</strong> 100% data integrity post-migration with zero duplicate records and full rollback safety.
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 6 -->
+        <article class="sf-project-card glass-surface">
+          <div class="proj-img-box">
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=700&q=80&auto=format&fit=crop" alt="Security Framework" />
+            <span class="proj-num-badge">06</span>
+          </div>
+          <div class="proj-body">
+            <div class="proj-tags">
+              <span>Admin</span><span>Profiles</span><span>Permission Sets</span><span>OWD</span>
+            </div>
+            <h3>User Access &amp; Security Framework</h3>
+            <p>Comprehensive user management architecture with profiles, permission sets, sharing rules, and security compliance.</p>
+            <div class="proj-impact">
+              <strong>Key Impact:</strong> Zero unauthorized data access incidents; FLS applied across 40+ sensitive financial fields.
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
-    <a href="#home" class="back-top">↑</a>
-  </div>
-</footer>
+  </section>
 
-<script src="script.js"></script>
+  <!-- =========================================================================
+       4. CONTACT SECTION
+       ========================================================================= -->
+  <section id="contact-section" class="sf-contact-section">
+    <div class="sf-container">
+      <div class="contact-card-wrapper glass-surface">
+        
+        <div class="contact-left-info">
+          <span class="badge-sky">READY FOR NEW ROLES &amp; PROJECTS</span>
+          <h2>Let’s Build Your Next Salesforce Solution.</h2>
+          <p>
+            Whether you need an experienced Salesforce Developer &amp; Administrator or seamless SAP integration architecture, reach out directly below.
+          </p>
+
+          <div class="contact-details-stack">
+            <a href="mailto:shuvam9931@gmail.com" class="cd-row glass-surface">
+              <div class="cd-icon">📧</div>
+              <div>
+                <span>Email Address</span>
+                <strong>shuvam9931@gmail.com</strong>
+              </div>
+            </a>
+            <a href="tel:+919939364141" class="cd-row glass-surface">
+              <div class="cd-icon">📱</div>
+              <div>
+                <span>Phone / WhatsApp</span>
+                <strong>+91 9939364141</strong>
+              </div>
+            </a>
+            <div class="cd-row glass-surface">
+              <div class="cd-icon">📍</div>
+              <div>
+                <span>Location</span>
+                <strong>Dhanbad, Jharkhand 828135</strong>
+              </div>
+            </div>
+            <div class="cd-row glass-surface">
+              <div class="cd-icon">🎓</div>
+              <div>
+                <span>Education</span>
+                <strong>B.Tech in Computer Science &amp; Engineering (IK Gujral PTU, 2024)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form class="sf-contact-form glass-surface" id="contactForm">
+          <h3>Send a Direct Message</h3>
+          <p class="form-note">Clicking send opens your mail client pre-filled and ready to dispatch.</p>
+
+          <div class="sf-field">
+            <label for="fname">Your Name *</label>
+            <input type="text" id="fname" placeholder="e.g. Shuvam Kumar" required />
+          </div>
+
+          <div class="sf-field">
+            <label for="femail">Your Work Email *</label>
+            <input type="email" id="femail" placeholder="shuvam@company.com" required />
+          </div>
+
+          <div class="sf-field">
+            <label for="fmsg">Project or Role Details *</label>
+            <textarea id="fmsg" rows="4" placeholder="Hi Shuvam, we are looking for a Salesforce Developer with LWC and SAP integration experience..." required></textarea>
+          </div>
+
+          <button type="submit" class="sf-btn sf-btn-primary sf-btn-full">
+            Send Message to Shuvam →
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="sf-footer">
+    <div class="sf-container footer-flex">
+      <div class="footer-brand">
+        <strong>Shuvam Kumar</strong> &bull; Salesforce Developer &amp; Administrator
+      </div>
+      <div class="footer-links">
+        <a href="#parallax-landing">Intro</a>
+        <a href="#hero">Overview</a>
+        <a href="#app-zoom-stage">App Zoom</a>
+        <a href="#projects-showcase">Projects</a>
+        <a href="mailto:shuvam9931@gmail.com">shuvam9931@gmail.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GSAP, ScrollTrigger & Lenis Smooth Scroll -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
